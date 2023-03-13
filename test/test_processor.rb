@@ -10,6 +10,9 @@ class TestProcessor < Test::Unit::TestCase
   setup do
     @po = GetText::PO.new
     @po['Hello'] = 'こんにちは'
+    @po['Chapter Title'] = '章タイトル'
+    @po['Chapter2 Title'] = '章2タイトル'
+    @po['Hello *bold*'] = 'こんにちは *太字*'
     @po["Hello +\nHello"] = "こんにちは +\nこんにちは"
     @po['*bold*, _italic phrase_, `monospace phrase`'] = '*太字*、_イタリックのフレーズ_、`モノスペースのフレーズ`'
     @translator = Asciidoctor::I18n::Translator.new('old-po' => @po)
@@ -28,7 +31,9 @@ class TestProcessor < Test::Unit::TestCase
       :source,
       '*太字*、_イタリックのフレーズ_、`モノスペースのフレーズ`',
     ],
-    'section' => ['= Hello', :section, :title, 'こんにちは'],
+    'section' => ['= Chapter Title', :section, :title, '章タイトル'],
+    'section2' => ['== Chapter2 Title', :section, :title, '章2タイトル'],
+    'section with style' => ['=== Hello *bold*', :section, :title, 'こんにちは <strong>太字</strong>'],
     'unordered list item' => ['* Hello', :list_item, :text, 'こんにちは'],
     'ordered list item' => ['. Hello', :list_item, :text, 'こんにちは'],
     'check list item' => ['* [*] Hello', :list_item, :text, 'こんにちは'],

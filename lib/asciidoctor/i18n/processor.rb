@@ -24,8 +24,10 @@ module Asciidoctor
       private
 
       def process_abstract_block(src, translator)
-        return unless src.title
-        src.title = translator.translate(src.title)
+        raw = src.instance_variable_get(:@title)
+        raw = src.instance_variable_get(:@doctitle) unless raw
+        return unless raw
+        src.title = translator.translate(raw)
       end
 
       def process_block(src, translator)
